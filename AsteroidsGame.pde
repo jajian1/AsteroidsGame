@@ -2,6 +2,7 @@ Spaceship bob;
 Star[] lol;
 ArrayList <Asteroid> tee;
 boolean wPress, aPress, dPress, sPress;
+ArrayList <Bullet> hee;
 
 //your variable declarations here
 public void setup() 
@@ -12,6 +13,7 @@ public void setup()
   aPress=false;
   background(0);
   size(500,500);
+  hee = new ArrayList <Bullet>();
   tee = new ArrayList <Asteroid>();
   for(int i =0; i<10; i++)
   {
@@ -61,7 +63,30 @@ public void draw()
   	{
   		tee.remove(i);
   	}
+  	if(tee.size()<7)
+  	{
+  		tee.add(new Asteroid());
+  	}
   }
+  for(int i=0; i<hee.size(); i++)
+  {
+  	hee.get(i).show();
+  	hee.get(i).move();
+  	hee.get(i).accelerate(2);
+  }
+  for(int i = 0; i<tee.size(); i++)
+  {
+  	for(int j = 0; j<hee.size(); j++)
+  	{
+  		if(dist((float)(hee.get(j).getCenterX()),(float)(hee.get(j).getCenterY()),(float)(tee.get(i).getCenterX()),(float)(tee.get(i).getCenterY()))<25)
+  		{
+  			hee.remove(j);
+  			tee.remove(i);
+  			break;
+  		}
+  	}
+  }
+
 
   //your code here
 }
@@ -111,6 +136,10 @@ public void keyReleased()
 	{
 		dPress=false;
 	}
+}
+public void mousePressed()
+{
+	hee.add(new Bullet(bob));
 }
 
 
